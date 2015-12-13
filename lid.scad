@@ -1,33 +1,39 @@
+include <constants.scad>;
+
+use <cap.scad>;
 use <threads.scad>;
 
 
-$fn = 90;
 
-bumper_diameter = 85;
-body_diameter = 69;
-m3nut_diameter = 6.5;
-
-tolerance = 0.5;
-
-thread_diameter = body_diameter - 10;
-thread_pitch = 3;
-thread_lenght = 7.5;
 
 difference() {
     union() {
-        translate([0, 0, 1.25])
-            cylinder(r = body_diameter / 2 - 2.5 - tolerance, 
-                    h=2.6,
+        translate([0, 0, 0.25 * height_unit])
+            cylinder(r = lid_diameter / 2 - lid_tolerance, 
+                    h=0.5 * height_unit,
                     center=true);
 
-        translate([0, 0, -thread_lenght])
-            metric_thread(thread_diameter, 
+        translate([0, 0, -thread_lenght_lid])
+            metric_thread(thread_diameter - thread_tolerance, 
                             thread_pitch,
-                            thread_lenght);
+                            thread_lenght_lid);
     }
     
-    for(pos = [-15, 15]) {
-        translate([pos, 0, 2.5 + 2.5])
-            sphere(r = 5, center=true);
+    union() {
+        for(pos = [-3 * height_unit, 3 * height_unit]) {
+            translate([pos, 0, height_unit])
+                sphere(r = 1.5 * height_unit, center=true);
+        }
+        translate([0, 0, height_unit])
+        rotate([0, 90, 0])
+        cylinder(r = 1.5 * height_unit, h=6 * height_unit, center=true);
     }
+    
+    
+    
+    //Make the thread hollow
+    translate([0, 0, - 1.5 * height_unit])
+        cylinder(r = thread_diameter / 2 - 5, 
+                h = 1.5 * height_unit + 0.01,
+                center=true);
 }
