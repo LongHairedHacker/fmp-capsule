@@ -4,19 +4,36 @@ use <cap.scad>;
 use <threads.scad>;
 
 
+module thread() {
+	intersection() {
+		metric_thread(thread_diameter - thread_tolerance, 
+						thread_pitch,
+						thread_lenght_lid);
+		union() {
+			translate([0, 0, 0.5 * height_unit])
+				cylinder(r = thread_diameter  / 2,
+						h = thread_lenght_lid - 0.5 * height_unit);
+			
+				cylinder(r2 = thread_diameter  / 2,
+							r1 = thread_diameter / 2 - height_unit,
+							h = 0.5 * height_unit);
+		}
+	}
+}
+
+
+
 
 
 difference() {
     union() {
         translate([0, 0, 0.25 * height_unit])
-            cylinder(r = lid_diameter / 2 - lid_tolerance, 
+            cylinder(r = lid_diameter / 2,
                     h=0.5 * height_unit,
                     center=true);
 
         translate([0, 0, -thread_lenght_lid])
-            metric_thread(thread_diameter - thread_tolerance, 
-                            thread_pitch,
-                            thread_lenght_lid);
+			thread();
     }
     
     union() {
