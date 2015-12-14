@@ -32,14 +32,14 @@ module cap() {
         }
     
         // Make a grove to slide the tube into
-        translate([0, 0, -2 * height_unit])
+        #translate([0, 0, -1.75 * height_unit])
             difference() {
                 cylinder(r = tube_outer_diameter / 2, 
-                        h = height_unit, 
+                        h = 1.5 * height_unit, 
                         center = true);
             
                 cylinder(r = body_diameter / 2, 
-                        h = height_unit + 0.1, 
+                        h = 1.5 * height_unit + 0.1, 
                         center = true);
             }
         
