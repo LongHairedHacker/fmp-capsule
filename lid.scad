@@ -1,56 +1,66 @@
-include <constants.scad>;
+$fn = 90;
 
-use <cap.scad>;
-use <threads.scad>;
+module lid(outer_diameter,
+            inner_diameter,
+            latch_width, 
+            latch_height,
+            lid_height) {
+        
 
+    translate([0,0, latch_height / 2])
+        intersection() {        
+            cube([outer_diameter, 
+                latch_width,
+                latch_height], 
+                center = true);
+            
+            cylinder(r = outer_diameter / 2, 
+                    h = latch_height,
+                    center = true);
+       }
+    
+    cylinder(r = inner_diameter / 2, h = lid_height);
+    
+    
+}
 
-module thread() {
-	intersection() {
-		metric_thread(thread_diameter - thread_tolerance, 
-						thread_pitch,
-						thread_lenght_lid);
-		union() {
-			translate([0, 0, 0.5 * height_unit])
-				cylinder(r = thread_diameter  / 2,
-						h = thread_lenght_lid - 0.5 * height_unit);
-			
-				cylinder(r2 = thread_diameter  / 2,
-							r1 = thread_diameter / 2 - height_unit,
-							h = 0.5 * height_unit);
-		}
-	}
+module hole(outer_diameter,
+            inner_diameter,
+            latch_width, 
+            latch_height,
+            lid_height) {
+             
+    translate([0, 0, lid_height / 2])
+        intersection() {        
+                cube([outer_diameter, 
+                    latch_width,
+                    lid_height], 
+                    center = true);
+                
+                cylinder(r = outer_diameter / 2, 
+                        h = lid_height,
+                        center = true);
+       }
+
+   translate([0, 0, latch_height / 2])
+        difference() {
+            cylinder(r = outer_diameter / 2, 
+                    h = latch_height, 
+                    center = true);
+            
+            for(pos = [outer_diameter / 4, -outer_diameter / 4])
+                translate([pos, pos, 0])
+                    cube([outer_diameter / 2, 
+                            outer_diameter / 2,
+                            latch_height],
+                            center=true);
+       }
+    
+    translate([0,0, lid_height / 2])
+        cylinder(r = inner_diameter / 2,
+                    h = lid_height, 
+                    center = true); 
 }
 
 
-
-
-
-difference() {
-    union() {
-        translate([0, 0, 0.25 * height_unit])
-            cylinder(r = lid_diameter / 2,
-                    h=0.5 * height_unit,
-                    center=true);
-
-        translate([0, 0, -thread_lenght_lid])
-			thread();
-    }
-    
-    union() {
-        for(pos = [-3 * height_unit, 3 * height_unit]) {
-            translate([pos, 0, height_unit])
-                sphere(r = 1.5 * height_unit, center=true);
-        }
-        translate([0, 0, height_unit])
-        rotate([0, 90, 0])
-        cylinder(r = 1.5 * height_unit, h=6 * height_unit, center=true);
-    }
-    
-    
-    
-    //Make the thread hollow
-    translate([0, 0, - 1.5 * height_unit])
-        cylinder(r = thread_diameter / 2 - 5, 
-                h = 1.5 * height_unit + 0.01,
-                center=true);
-}
+hole(78,72,10,5,10);
