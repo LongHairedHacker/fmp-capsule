@@ -13,6 +13,7 @@ groove_length = 50;
 
 // Top
 bumper_height = 15;
-bumper_edge_radius = 5;
-bumper_diameter = 80;
+bumper_diameter = 85;
+// Flat surface starts after bumper_edge_radius from the outside
+bumper_edge_radius = bumper_diameter - tube_outer_diameter - 4;
 bumper_tube_depth = 4;
