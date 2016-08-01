@@ -1,15 +1,23 @@
 include <constants.scad>;
 include <bayonetmount.scad>;
+include <support.scad>;
 
-delta = 0.2;
+delta = 0.5;
 wall_thickness = 5;
 
 difference() {
-	lid(tube_outer_diameter - delta * 2, 
-		tube_inner_diameter - delta * 2,
-		latch_width - delta,
-		latch_height - delta,
-		lid_height);
+	union() {
+		lid(tube_outer_diameter - delta * 2, 
+			tube_inner_diameter - delta * 2,
+			latch_width - delta,
+			latch_height - delta,
+			lid_height - delta);
+		
+		translate([0, 0, lid_height - brim_height / 2])
+		cylinder(r = tube_outer_diameter / 2, 
+					h = brim_height,
+					center = true);
+	}
 	
 	hull() {
 			pos = groove_length / 2 - groove_depth;
@@ -30,4 +38,11 @@ difference() {
 					lid_height],
 					center = true);
 	}
+}
+
+translate([0, 0, lid_height /2]) {
+	support(tube_outer_diameter, lid_height);
+	support(tube_outer_diameter * 0.96, lid_height);
+	
+	support(tube_inner_diameter * 0.75, lid_height);
 }
