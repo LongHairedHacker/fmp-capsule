@@ -34,7 +34,9 @@ difference() {
 
 
 translate([0, 0, bumper_tube_depth / 2])
-	support(tube_inner_diameter + 0.5, bumper_tube_depth);
+	color("red") 
+		support(tube_inner_diameter + 0.5, bumper_tube_depth);
 
 translate([0, 0, bumper_height - lid_depth + latch_height / 2])
-	support(tube_inner_diameter + 0.5, latch_height);
+	color("red") 
+		support(tube_inner_diameter + 0.5, latch_height);

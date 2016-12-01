@@ -1,6 +1,5 @@
 include <constants.scad>;
 include <bayonetmount.scad>;
-include <handle.scad>;
 include <support.scad>;
 
 delta = 0.75;
@@ -15,7 +14,7 @@ difference() {
 			lid_height - delta);
 
 		translate([0, 0, lid_height])
-			handle();
+			import("handle.stl");
 
 		translate([0, 0, lid_height - brim_height / 2])
 		cylinder(r = tube_outer_diameter / 2,
@@ -26,6 +25,8 @@ difference() {
 
 
 translate([0, 0, lid_height /2]) {
-	support(tube_outer_diameter, lid_height);
-	support(tube_outer_diameter * 0.96, lid_height);
+	color("red")
+		support(tube_outer_diameter, lid_height);
+	color("red")
+		support(tube_outer_diameter * 0.96, lid_height);
 }

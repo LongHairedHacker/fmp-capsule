@@ -35,3 +35,5 @@ module handle() {
             sphere(d = handle_minkowski_dia, center = true);
         }
 }
+
+handle();
