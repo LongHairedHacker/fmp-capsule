@@ -14,7 +14,7 @@ difference() {
 			lid_height - delta);
 
 		translate([0, 0, lid_height])
-			import("handle.stl");
+			import("stl/handle.stl");
 
 		translate([0, 0, lid_height - brim_height / 2])
 		cylinder(r = tube_outer_diameter / 2,
